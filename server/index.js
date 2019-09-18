@@ -3,10 +3,12 @@ const express = require("express");
 const logger = require("morgan");
 const errorhandler = require("errorhandler");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(logger("dev"));
 app.use(bodyParser.json());
+app.use(cors());
 
 const MongoClient = require("mongodb").MongoClient;
 
