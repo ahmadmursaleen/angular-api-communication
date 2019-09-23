@@ -1,3 +1,7 @@
+<button mat-button color="primary" [routerLink]="['/newcontact']">
+  <h1>New Contact</h1>
+</button>
+
 <div *ngFor="let contact of contacts">
   <mat-card class="card">
     <mat-card-title>{{ contact.name }}</mat-card-title>
