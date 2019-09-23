@@ -2,7 +2,12 @@
   <h1>Contact List</h1>
 </button>
 <div class="add-form-container">
-  <form action="" class="ui-big-form">
+  <form
+    action=""
+    class="ui-big-form"
+    #contactForm="ngForm"
+    (submit)="onSubmit(contactForm)"
+  >
     <div class="fields">
       <div class="eight wide field">
         <label>First Name</label>
@@ -11,6 +16,7 @@
           name="firstName"
           id="firstName"
           placeholder="First Name"
+          ngModel
         />
       </div>
       <div class="eight wide field">
@@ -20,11 +26,12 @@
           name="lastName"
           id="lastName"
           placeholder="Last Name"
+          ngModel
         />
       </div>
       <div class="field">
         <label>Address</label>
-        <input type="text" placeholder="Address" name="address" />
+        <input type="text" placeholder="Address" name="address" ngModel />
       </div>
       <button type="submit">Submit</button>
     </div>
