@@ -4,6 +4,8 @@ const logger = require("morgan");
 const errorhandler = require("errorhandler");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(logger("dev"));
@@ -45,6 +47,35 @@ MongoClient.connect(
         const newUser = r.ops[0];
 
         return res.status(201).json(newUser);
+      });
+    });
+
+    //Authenticate route
+    app.post("/api/authenticate", (req, res) => {
+      const user = req.body;
+      const usersCollection = database.collection("users");
+      usersCollection.findOne({ username: user.username }, (err, result) => {
+        if (!result) {
+          return res.status(404).json({ error: "User not found" });
+        }
+
+        if (!bcrypt.compareSync(user.password, result.password)) {
+          return res.status(401).json({ error: "Incorrect Password" });
+        }
+
+        const payload = {
+          username: result.username,
+          admin: result.admin
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "4h"
+        });
+
+        return res.json({
+          message: "Successfully authenticated",
+          token: token
+        });
       });
     });
 
