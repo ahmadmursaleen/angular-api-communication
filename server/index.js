@@ -6,11 +6,19 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const checkJwt = require("express-jwt");
 
 const app = express();
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(
+  checkJwt({
+    secret: "rXJXBCOiUKF3bxt44TQbBIPPgzimySoPLtmNLeLtOokhAGjvV52Ze8GoiYPbjGJ"
+  }).unless({
+    path: ["/api/authenticate"]
+  })
+);
 
 const MongoClient = require("mongodb").MongoClient;
 
